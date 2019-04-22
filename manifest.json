@@ -1,0 +1,35 @@
+{
+  "name": "JS Toggle",
+  "version": "1.0",
+  "description": "Toggle the Javascript setting on any page with ease.",
+  "permissions": [
+    "tabs",
+    "contentSettings"
+  ],
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "commands": {
+    "toggle-js": {
+      "suggested_key": {
+        "default": "Ctrl+J"
+      },
+      "description": "Toggle the Javascript setting on this page."
+    }
+  },
+  "icons": {
+    "16": "images/allow-16.png",
+    "32": "images/allow-32.png",
+    "48": "images/allow-48.png"
+  },
+  "browser_action": {
+    "default_icon": {
+      "16": "images/allow-16.png",
+      "32": "images/allow-32.png",
+      "48": "images/allow-48.png"
+    },
+    "default_title": "Toggle the Javascript setting on any page with ease."
+  },
+  "manifest_version": 2
+}
