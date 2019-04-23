@@ -28,18 +28,12 @@ function getIconForSetting(setting) {
 
 function setForURL(tabID, url, shouldInvert) {
   if (url == undefined) {
-    console.log('disabling btn');
-    console.log(url);
     return chrome.browserAction.disable(tabID);
   }
   url = new URL(url);
   if (url.protocol != 'https:' && url.protocol != 'http:') {
-    console.log('disabling btn');
-    console.log(url);
     return chrome.browserAction.disable(tabID);
   }
-  console.log('enabling btn');
-  console.log(url);
   chrome.browserAction.enable(tabID);
   var pattern = `${url.origin}/*`;
   chrome.contentSettings.javascript.get(
