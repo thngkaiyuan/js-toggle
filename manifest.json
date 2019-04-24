@@ -1,6 +1,6 @@
 {
   "name": "JS Toggle",
-  "version": "1.0",
+  "version": "1.2",
   "description": "Toggle the Javascript setting on any page with ease.",
   "permissions": [
     "tabs",

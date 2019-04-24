@@ -27,9 +27,6 @@ function getIconForSetting(setting) {
 }
 
 function setForURL(tabID, url, shouldInvert) {
-  if (url == undefined) {
-    return chrome.browserAction.disable(tabID);
-  }
   url = new URL(url);
   if (url.protocol != 'https:' && url.protocol != 'http:') {
     return chrome.browserAction.disable(tabID);
@@ -57,6 +54,9 @@ function setForCurrentTab(shouldInvert) {
   chrome.tabs.query(
     {'active': true, 'lastFocusedWindow': true},
     function (tabs) {
+      if (tabs == undefined || tabs.length == 0 || tabs[0].url == undefined) {
+        return;
+      }
       var url = tabs[0].url;
       var tabID = tabs[0].id;
       setForURL(tabID, url, shouldInvert);
