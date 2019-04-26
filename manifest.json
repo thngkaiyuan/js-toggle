@@ -1,7 +1,7 @@
 {
-  "name": "JS Toggle",
-  "version": "1.2",
-  "description": "Toggle the Javascript setting on any page with ease.",
+  "name": "Javascript Toggle",
+  "version": "1.4",
+  "description": "A really simple, clean and lightweight extension for toggling the Javascript setting on any page.",
   "permissions": [
     "tabs",
     "contentSettings"
@@ -13,7 +13,8 @@
   "commands": {
     "toggle-js": {
       "suggested_key": {
-        "default": "Ctrl+J"
+        "default": "Ctrl+I",
+        "mac": "Command+J"
       },
       "description": "Toggle the Javascript setting on this page."
     }
