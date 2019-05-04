@@ -1,6 +1,6 @@
 'use strict';
 
-var settingEnum = chrome.contentSettings.JavascriptContentSetting
+const settingEnum = chrome.contentSettings.JavascriptContentSetting
 
 function getInverseSetting(setting) {
   if (setting == undefined || setting == settingEnum.ALLOW) {
@@ -11,7 +11,7 @@ function getInverseSetting(setting) {
 }
 
 function getTitleForSetting(setting) {
-  var inverseSetting = getInverseSetting(setting);
+  const inverseSetting = getInverseSetting(setting);
   return `Click to ${inverseSetting} Javascript on this page`;
 }
 
@@ -22,54 +22,44 @@ function getIconForSetting(setting) {
   return {
     '16': `images/${setting}-16.png`,
     '32': `images/${setting}-32.png`,
-    '48': `images/${setting}-48.png`
+    '48': `images/${setting}-48.png`,
   };
 }
 
-function setForURL(tabID, url, shouldInvert) {
+async function setForURL(tabID, url, shouldInvert) {
   url = new URL(url);
   if (url.protocol != 'https:' && url.protocol != 'http:') {
     return chrome.browserAction.disable(tabID);
   }
   chrome.browserAction.enable(tabID);
   var pattern = `${url.origin}/*`;
-  chrome.contentSettings.javascript.get(
-    {'primaryUrl': pattern},
-    function (settings) {
-      var finalSetting = shouldInvert ? getInverseSetting(settings.setting) : settings.setting;
-      chrome.contentSettings.javascript.set(
-        {'primaryPattern': pattern, 'setting': finalSetting}
-      );
-      chrome.browserAction.setIcon(
-        {'tabId': tabID, 'path': getIconForSetting(finalSetting)}
-      );
-      chrome.browserAction.setTitle(
-        {'tabId': tabID, 'title': getTitleForSetting(finalSetting)}
-      );
-    }
-  );
+  const settings = await new Promise(resolve => {
+      chrome.contentSettings.javascript.get({'primaryUrl': pattern}, settings => { resolve(settings); });
+  });
+  const finalSetting = shouldInvert ? getInverseSetting(settings.setting) : settings.setting;
+  chrome.contentSettings.javascript.set({'primaryPattern': pattern, 'setting': finalSetting});
+  chrome.browserAction.setIcon({'tabId': tabID, 'path': getIconForSetting(finalSetting)});
+  chrome.browserAction.setTitle({'tabId': tabID, 'title': getTitleForSetting(finalSetting)});
 }
 
-function setForCurrentTab(shouldInvert) {
-  chrome.tabs.query(
-    {'active': true, 'lastFocusedWindow': true},
-    function (tabs) {
-      if (tabs == undefined || tabs.length == 0 || tabs[0].url == undefined) {
-        return;
-      }
-      var url = tabs[0].url;
-      var tabID = tabs[0].id;
-      setForURL(tabID, url, shouldInvert);
-    }
-  );
+async function setForCurrentTab(shouldInvert) {
+  const tabs = await new Promise(resolve => {
+    chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, tabs => { resolve(tabs); });    
+  });
+  if (tabs == undefined || tabs.length == 0 || tabs[0].url == undefined) {
+    return;
+  }
+  const url = tabs[0].url;
+  const tabID = tabs[0].id;
+  await setForURL(tabID, url, shouldInvert);
 }
 
-function toggleForCurrentTab(command) {
-  setForCurrentTab(true);
+async function toggleForCurrentTab(command) {
+  await setForCurrentTab(true);
 }
 
-function setToolbarForCurrentTab() {
-  setForCurrentTab(false);
+async function setToolbarForCurrentTab() {
+  await setForCurrentTab(false);
 }
 
 chrome.runtime.onInstalled.addListener(setToolbarForCurrentTab);

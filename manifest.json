@@ -1,6 +1,6 @@
 {
   "name": "Javascript Toggle",
-  "version": "1.4",
+  "version": "1.5",
   "description": "A really simple, clean and lightweight extension for toggling the Javascript setting on any page.",
   "permissions": [
     "tabs",
