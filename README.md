@@ -8,7 +8,7 @@ I disable Javascript on a number of pages. Things are snappier, you don't get an
 
 If you're like me, then you will be hoping for an easier way to allow/block Javascript on pages. *js-toggle* is precisely the solution to that problem. With `Ctrl` + `I` (Windows) or `⌘ Cmd` + `J` (Mac), you can easily toggle Javascript to be allowed/blocked on pages. Clicking on the extension icon works too! Here's *js-toggle* in action:
 
-![test5](https://user-images.githubusercontent.com/10496851/56557661-c77a9780-6550-11e9-9f85-2b957738333d.gif)
+![js-toggle](https://user-images.githubusercontent.com/10496851/57187644-3c8a8d00-6ec0-11e9-98a9-e76bcc091ef7.gif)
 
 ## How do I install js-toggle?
 
